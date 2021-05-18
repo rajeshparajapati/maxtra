@@ -1,0 +1,108 @@
+<%- include('include/header'); %>
+<%- include('include/sidebar',{currentMenu:'pdf'}); %>
+<div class="content-wrapper user_message">
+    <section class="content-header">
+		<div class="row">
+			<div class="col-md-3"><h3>PDF LIST</h3></div>
+			<div class="col-md-9 text-right mt-20">		
+				<a href="javascript:void(0)" onclick="add_pdf_list()" class="btn btn-success btn-sm" style="margin-top: 20px;"><i class="fa fa-plus-circle"></i> Upload PDF</a>
+			</div>
+		</div>
+	</section>
+<section class="content">	
+    <div class="box box-primary">
+        <div class="box-body">
+            <table id="users-list" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>                       
+                        <th>PDF</th>                        
+                        <th>Action</th>                       
+                    </tr>
+                </thead>
+                <tbody>	
+                    <% for(var i=0; i< result.length; i++) { %>
+                        <tr>
+                            <td><%= i+1 %></td>
+                            <td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>                                                                        
+                            <td> 
+                               	<a href="<%=process.env.baseUrl%>/<%= result[i].pdf %>" target="_blank" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit"><i class="fa fa-edit"></i></a> 
+                               
+                            </td> 
+                        </tr>  
+                        <% } %>    
+                    
+                    
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</section>
+</div>
+
+
+<div class="modal fade" id="product-tag-from" data-backdrop="static" keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="top: 100px;">
+        <div class="modal-content relative submit-contact" >            
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button><h4 class="modal-title">Upload PDF</h4>
+            </div>
+            <div class="modal-body">
+            <div class="msg-contact-per"></div>
+                <form name="submit-pdf" id="submit-pdf" autocomplete="off" enctype="multipart/form-data">
+                                  
+                        <div class="form-group">
+                         <div class="row">
+                            <div class="col-md-6"> <label>PDF UPload <span style="color: red;">*</span></label> <input type="file" name="file" class="form-control" placeholder="Type" required="" accept="/pdf"> </div> 
+                         
+                          <div class="col-md-6"></div> 
+                                               
+                         </div>
+                      </div>
+                        <div class="form-group">
+                        <div class="row">                                             
+                        <div class="col-md-12 text-right mt-20 pull-right"> <button type="submit"  class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> Upload PDF</button> 
+                        </div>                                      
+                         </div>
+                    </div>
+ 
+                </form>
+            </div>
+        </div>
+    </div>
+ </div>
+
+
+<script>
+    $('#users-list').DataTable()
+
+    function add_pdf_list(){      
+      $("#product-tag-from").modal('show');      
+   }
+
+
+const form = document.getElementById("submit-pdf");
+form.addEventListener('submit',pdfUpload)
+async function pdfUpload(event){
+  event.preventDefault()  
+  const data = new FormData(event.target);    
+  const result  =  await fetch('/api/upload-pdf',{
+    method:"POST",     
+    body:data,    
+  }).then(res=>res.json()).then(data=>{
+      console.log(data);
+      if(data.status){         
+      successMsg(data.message)      
+    } else{
+      errorMsg(data.message);
+    }  
+  }).catch(err=>{
+      errorMsg(err.message);
+  })
+
+}
+</script>
+
+<%- include('include/footer'); %>

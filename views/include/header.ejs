@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="icon" href="#" type="image/x-icon">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/css/ionicons.min.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/plugins/datatables/dataTables.bootstrap.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/plugins/select2/select2.min.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/plugins/datepicker/datepicker3.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/plugins/iCheck/all.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/plugins/iCheck/square/blue.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/dist/css/skins/skin-blue.min.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/dist/css/ogpm.min.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/css/custom.css">
+	<link rel="stylesheet" href="<%=process.env.baseUrl%>/admin/css/toastr.min.css">
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	<script src="<%=process.env.baseUrl%>/admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/bootstrap/js/bootstrap.min.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/plugins/select2/select2.full.min.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/plugins/datepicker/bootstrap-datepicker.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/plugins/daterangepicker/moment.min.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/plugins/iCheck/icheck.min.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/plugins/fastclick/fastclick.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/dist/js/app.min.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/dist/js/demo.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/js/custom.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/js/jquery.base64.min.js"></script>
+	<script type="text/javascript" src="<%=process.env.baseUrl%>/admin/plugins/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" src="<%=process.env.baseUrl%>/admin/plugins/ckfinder/ckfinder.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/js/common.js"></script>
+	<script src="<%=process.env.baseUrl%>/admin/js/toastr.min.js"></script>
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed">
+
+<div class="modal fade" id="confirmBox_" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+	<div class="modal-dialog" style="top: 100px;">
+	<div class="modal-content">
+		<div class="modal-header">
+		<h4 class="modal-title" id="confirmBoxTitle_">Confirm</h4></div>
+		<div class="modal-body">
+			<div class="row">
+			<div class="col-md-8"><label id="confirmBoxMsg_">Content</label></div>
+			<div class="col-md-4">
+				<button class="btn bg-orange btn-sm" id="confirmBox_Yes" ><i class="fa fa-check"></i> Ok</button>
+				<button class="btn btn-danger btn-sm" id="confirmBox_No"><i class="fa fa-times"></i> Cancel</button>
+			</div>
+			</div>
+		</div>
+		<div class="modal-footer text-right"></div>
+	</div>
+	</div>
+</div>
+
+<div class="wrapper">
+	<header class="main-header">
+		<a style="background-color: #343A40" href="/dashboard" class="logo">
+			<span style="line-height: 17px;font-size: 18px;    padding-top: 8px;color:#f03e27" class="logo-lg"><b>BMS</b></span>
+		</a>
+		<nav style="background-color: #6C757D" class="navbar navbar-static-top" >
+			<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<li class="dropdown messages-menu">
+				<!-- 		<a href="#" id="member-notifications" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-bell-o"></i>
+							<span class="label label-success" id="pro">10</span>
+					</a> -->
+					<ul class="dropdown-menu" id="member-notifications-list">
+							<li class="header" style="text-align: center;font-size: 17px;">Notification</li>
+							<li id="notify">
+								<!-- inner menu: contains the actual data -->
+								<!-- <ul class="menu">
+									<li>
+										<a href="#">
+											<i class="fa fa-users text-aqua"></i> 5 new members joined today
+										</a>
+									</li>
+								</ul> -->
+							</li>
+							<!-- <li class="footer"><a href="#">View all</a></li> -->
+						</ul>
+					</li>
+					<!-- Notifications: style can be found in dropdown.less -->
+					<li class="dropdown notifications-menu">
+		<!-- 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-flag-o"></i>
+							<span class="label label-warning" >10</span>
+						</a> -->
+						<ul class="dropdown-menu">
+							<!-- <li class="header">You have 10 notifications</li> -->
+							<li>
+								<!-- inner menu: contains the actual data -->
+								<ul class="menu">
+									<li>
+										<a href="#">
+											<i class="fa fa-users text-aqua"></i> 5 new members joined today
+										</a>
+									</li>
+								</ul>
+							</li>
+							<!-- <li class="footer"><a href="#">View all</a></li> -->
+						</ul>
+					</li>
+					<!-- User Account: style can be found in dropdown.less -->
+					<li class="dropdown user user-menu">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<img src="<%=process.env.baseUrl%>/admin/dist/img/avatar5.png" class="user-image" alt="User Image">
+							<span class="hidden-xs">Rajesh</span>
+						</a>
+						<ul class="dropdown-menu">
+							<!-- User image -->
+							<li class="user-header">
+								<img src="<%=process.env.baseUrl%>/admin/dist/img/avatar5.png" class="img-circle" alt="User Image">
+								<p>
+									
+								</p>
+							</li>
+							<li class="user-footer">
+								<div class="pull-left">
+									<a href="#" class="btn btn-default btn-flat">Profile</a>
+								</div>
+								<div class="pull-right">
+									<a href="/logout" class="btn btn-default btn-flat">Sign out</a>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+

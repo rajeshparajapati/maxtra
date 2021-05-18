@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Login</title>
+		<link rel="icon" href="admin/sal-papers-fav.png" type="image/x-icon">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="admin/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="admin/css/font-awesome.min.css">
+	<link rel="stylesheet" href="admin/css/ionicons.min.css">
+	<link rel="stylesheet" href="admin/dist/css/ogpm.min.css">
+	<link rel="stylesheet" href="admin/plugins/iCheck/square/blue.css">
+  <link rel="stylesheet" href="admin/css/toastr.min.css">
+
+</head>
+<body class="hold-transition login-page" style="height: auto;">
+<div class="login-box">
+
+	<div class="login-box-body">
+		<p class="login-box-msg">Sign in to start your session</p>
+	
+		<form method="POST" id="login" >
+			<div class="form-group has-feedback">
+				<input type="text" name="logintype" id="logintype" class="form-control" placeholder="Email" required>
+				<span class="glyphicon glyphicon-user form-control-feedback"></span>
+			</div>
+			<div class="form-group has-feedback">
+				<input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			</div>
+
+
+			<div class="text-center">
+					<button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+			</div>
+			<div class="margin text-center"><a href="/registration">Registration</a></div>
+		</form>
+	</div>
+</div>
+<script src="admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="admin/bootstrap/js/bootstrap.min.js"></script>
+<script src="admin/js/common.js"></script>
+<script src="admin/js/toastr.min.js"></script>
+
+
+</body>
+</html>
+<script>
+  const form = document.getElementById("login");
+
+  form.addEventListener('submit',login)
+
+  async function login(event){
+    event.preventDefault()  
+    const data = new FormData(event.target); 
+	logintype = document.getElementById('logintype').value 
+	password = document.getElementById('password').value
+    const result  =  await fetch('/api/login',{
+      method:"POST",     
+      headers: {
+			'Content-Type':'application/json'
+		},   
+        body:JSON.stringify({
+			logintype,
+			password
+		}),  
+    }).then(res=>res.json()).then(data=>{
+        if(data.status==200){         
+        successMsg(data.message)
+		window.location.replace('/dashboard');
+      } else{
+        errorMsg(data.message);
+      }  
+    }).catch(err=>{
+		errorMsg(err.message);
+    })
+
+  }
+</script>
